@@ -206,6 +206,15 @@ zendure.com
 stone-island.fr
 undercover.nl
 
+# ===== Trovati in automatico il 15/11/2026 16:49 =====
+www.moonboot.com
+nasomatto.com
+nntlab.it
+ortoparisi.com
+parfums-de-marly.com
+porttanger.com
+rickowens.eu
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
