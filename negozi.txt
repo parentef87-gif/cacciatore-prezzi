@@ -1,0 +1,203 @@
+﻿# Un negozio per riga (solo l'indirizzo, senza https://).
+# Le righe che iniziano con # sono ignorate.
+
+# Carte collezionabili
+pokecardsstore.it
+evlutcg.com
+www.baruzcard.it
+www.cardgameclub.it
+
+# Lego
+2ttoys.nl
+
+# Elettronica e varie (molto grande: viene letto a blocchi, gira tutto in qualche ora)
+www.yeppon.it
+
+www.tcgviert.com
+www.funside.it
+
+# Abbigliamento, sneakers e merchandising
+www.impericon.com
+www.footdistrict.com
+www.overkillshop.com
+www.slamjam.com
+www.afew-store.com
+www.asphaltgold.com
+eu.kith.com
+www.patta.nl
+www.antonioli.eu
+
+# Profumi e cosmetici
+profumeriegaleazzi.it
+
+# Tecnologia, audio, smart home ed energia
+eu.ecoflow.com
+eu.anker.com
+eu.eufy.com
+eu.soundcore.com
+eu.ugreen.com
+eu.nothing.tech
+eu.xgimi.com
+eu.jackery.com
+
+eu.baseus.com
+eu.tribit.com
+eu.boox.com
+eu.narwal.com
+
+# Accessori telefono e portafogli
+eu.mous.co
+eu.burga.com
+eu.ridge.com
+
+# Stampa 3D e laser
+eu.elegoo.com
+eu.snapmaker.com
+eu.xtool.com
+
+# Moda e streetwear (altri)
+eu.bape.com
+eu.stussy.com
+eu.oneill.com
+www.arte-antwerp.com
+www.colorfulstandard.com
+
+# Casa, cucina e outdoor
+eu.ooni.com
+eu.stanley1913.com
+eu.yeti.com
+
+# Caffe
+www.caffeborbone.com
+www.kimbo.it
+
+# ===== Aggiunti il 15/11/2026 notte =====
+# Tecnologia, audio, energia, foto
+eu.1more.com
+eu.soundpeats.com
+eu.hifiman.com
+eu.chuwi.com
+eu.oukitel.com
+eu.neewer.com
+eu.dabbsson.com
+eu.fossibot.com
+eu.zendure.com
+
+# Giochi da tavolo
+www.craniocreations.it
+
+# Moda, scarpe e borse (molti italiani)
+www.armedangels.com
+www.bomboogie.com
+www.borbonese.com
+www.diemme.com
+www.ecoalf.com
+www.k-way.com
+www.lefrik.com
+www.morrisonshoes.com
+www.olafhussein.com
+www.piquadro.com
+www.pompeiibrand.com
+www.soulland.com
+www.thebridge.it
+www.thehoffbrand.com
+www.womsh.com
+
+# Casa e cucina
+www.24bottles.com
+www.alessi.com
+www.guzzini.com
+www.moneta.it
+
+# Cosmetica
+www.erbolario.com
+www.mercihandy.com
+
+# ===== Secondo giro 15/11/2026 notte (Europa) =====
+# Moda, scarpe, borse, gioielli
+www.balibaris.com
+www.bonnegueule.fr
+www.cabaia.com
+www.gcds.com
+www.got-bag.com
+www.horizn-studios.com
+www.maisonlabiche.com
+www.mrboho.com
+www.paez.com
+www.pdpaola.com
+www.pinqponq.com
+www.purelei.com
+www.rains.com
+www.retrosuperfuture.com
+www.scuffers.com
+www.sepiia.com
+www.singularu.com
+www.snocks.com
+www.tropicfeel.com
+www.komono.com
+
+# Tecnologia e audio
+www.happyplugs.com
+www.kreafunk.com
+www.libratone.com
+www.woodcessories.com
+
+# Casa, cucina, design
+www.fermliving.com
+www.fissler.com
+www.koziol.de
+www.rotho.com
+www.stelton.com
+www.ankerkraut.de
+
+# Bici
+www.amplerbikes.com
+
+# ===== Trovati in automatico il 15/11/2026 09:01 =====
+44labelgroup.com
+www.ankertee.de
+anndemeulemeester.com
+arc-teryx.com
+asko.it
+berndes.com
+
+# ===== Trovati in automatico il 15/11/2026 11:02 =====
+bdkparfums.com
+byparra.com
+clementoni.de
+craniocreations.com
+diegodallapalma.com
+driesvannoten.com
+droledemonsieur.com
+it.ecoflow.com
+eizo.fr
+ephemeraldyadic.com
+erbamea.com
+faced.com
+
+# ===== Trovati in automatico il 15/11/2026 12:04 =====
+fred-perry.eu
+ghettofever.com
+www.goovi.com
+gr10k.com
+indicode.com
+jeudesgarcons.com
+j-l-a-l.com
+karhu.com
+
+# ===== Trovati in automatico il 15/11/2026 12:56 =====
+kingpinclothingstore.com
+laifen.it
+lardini.com
+www.leagueoflegends.fr
+lemaire.fr
+lenco.com
+lonsdale.de
+loscarabeo.com
+maisoncrivelli.com
+
+# Scartati (valuta non in euro)
+# tcg-corner.com      (dollari)
+# pokemonplug.com     (dollari)
+# wafuu.com           (yen)
+# heyupnow.com        (dollari)

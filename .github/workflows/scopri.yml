@@ -1,0 +1,60 @@
+name: Ricerca nuovi negozi
+
+on:
+  schedule:
+    - cron: '45 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: cacciatore
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  scopri:
+    runs-on: windows-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Recupera archivio
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            prezzi
+            avvisi.log
+            scoperte.log
+          key: prezzi-${{ github.run_id }}
+          restore-keys: prezzi-
+
+      - name: Prepara codice del bot Report (dai segreti)
+        shell: powershell
+        env:
+          TG: ${{ secrets.TELEGRAM_REPORT }}
+        run: |
+          $env:TG | ConvertTo-SecureString -AsPlainText -Force | ConvertFrom-SecureString | Out-File telegram_report.dat -Encoding ascii
+
+      - name: Cerca negozi nuovi
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\scopri_negozi.ps1
+
+      - name: Salva la lista aggiornata dei negozi
+        shell: bash
+        run: |
+          git config user.name "cacciatore-bot"
+          git config user.email "cacciatore-bot@users.noreply.github.com"
+          date -u +%F > ultimo_controllo.txt
+          git add negozi.txt ultimo_controllo.txt
+          git diff --cached --quiet || (git commit -m "Ricerca negozi: lista aggiornata" && git push)
+
+      - name: Salva archivio
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            prezzi
+            avvisi.log
+            scoperte.log
+          key: prezzi-${{ github.run_id }}

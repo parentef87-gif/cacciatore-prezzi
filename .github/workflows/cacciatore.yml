@@ -1,0 +1,52 @@
+name: Cacciatore errori di prezzo
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: cacciatore
+  cancel-in-progress: false
+
+jobs:
+  caccia:
+    runs-on: windows-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Recupera archivio prezzi
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            prezzi
+            avvisi.log
+          key: prezzi-${{ github.run_id }}
+          restore-keys: prezzi-
+
+      - name: Prepara codice del bot (dai segreti)
+        shell: powershell
+        env:
+          TG: ${{ secrets.TELEGRAM_CACCIATORE }}
+        run: |
+          $env:TG | ConvertTo-SecureString -AsPlainText -Force | ConvertFrom-SecureString | Out-File telegram.dat -Encoding ascii
+
+      - name: Caccia agli errori di prezzo
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\cacciatore.ps1
+
+      - name: Riassunto
+        if: always()
+        shell: powershell
+        run: |
+          if (Test-Path avvisi.log) { Get-Content avvisi.log -Tail 400 | Where-Object { $_ -match 'AVVISO|non riuscita|pausa' } | Select-Object -Last 30 }
+
+      - name: Salva archivio prezzi
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            prezzi
+            avvisi.log
+          key: prezzi-${{ github.run_id }}

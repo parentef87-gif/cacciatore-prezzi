@@ -1,0 +1,9 @@
+﻿{
+    "crollo_percento":  60,
+    "max_pagine":  6,
+    "pausa_secondi_tra_pagine":  2,
+    "max_avvisi_per_negozio":  5,
+    "negozi_in_parallelo":  4,
+    "marchi_per_giro":  150,
+    "scoperta_inizio":  "2026-11-15T08:00:00"
+}
