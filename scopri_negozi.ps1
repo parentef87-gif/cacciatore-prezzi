@@ -50,7 +50,7 @@ $giaProvati = @{}
 if (Test-Path $provati) { Get-Content $provati | ForEach-Object { $giaProvati[$_] = $true } }
 
 # 1. raccogli i marchi dalla prima pagina di ogni negozio sorvegliato
-$attivi = $righe | ForEach-Object { $_.Trim() } | Where-Object { $_ -and -not $_.StartsWith('#') } | Get-Random -Count 20   # 20 a caso: meno richieste a Shopify
+$attivi = $righe | ForEach-Object { $_.Trim() } | Where-Object { $_ -and -not $_.StartsWith('#') } | Get-Random -Count $(if ($cfg.negozi_per_marchi) { [int]$cfg.negozi_per_marchi } else { 20 })   # negozi a caso da cui raccogliere i marchi
 $marche = @{}
 foreach ($d in $attivi) {
     try {
