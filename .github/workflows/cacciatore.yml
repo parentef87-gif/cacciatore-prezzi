@@ -40,7 +40,13 @@ jobs:
         if: always()
         shell: powershell
         run: |
-          if (Test-Path avvisi.log) { Get-Content avvisi.log -Tail 400 | Where-Object { $_ -match 'AVVISO|non riuscita|pausa' } | Select-Object -Last 30 }
+          if (Test-Path avvisi.log) {
+            $oggi = Get-Content avvisi.log -Tail 1500 | Where-Object { $_ -match '^\d{4}' -and [datetime]$_.Substring(0,19) -gt (Get-Date).AddMinutes(-40) }
+            "LETTI BENE: " + @($oggi | Where-Object { $_ -match 'controllati|prima lettura' }).Count
+            "ERRORI O PAUSA: " + @($oggi | Where-Object { $_ -match 'non riuscita|pausa' }).Count
+            "AVVISI: " + @($oggi | Where-Object { $_ -match 'AVVISO' }).Count
+            $oggi | Where-Object { $_ -match 'AVVISO|non riuscita|pausa' } | Select-Object -Last 20
+          }
 
       - name: Salva archivio prezzi
         if: always()
