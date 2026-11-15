@@ -196,6 +196,12 @@ lonsdale.de
 loscarabeo.com
 maisoncrivelli.com
 
+# ===== Trovati in automatico il 15/11/2026 14:42 =====
+patta.fr
+pinkgold.nl
+shop.tropicfeel.com
+zendure.com
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
