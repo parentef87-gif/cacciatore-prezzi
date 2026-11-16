@@ -241,6 +241,13 @@ moschino.com
 # ===== Trovati in automatico il 16/11/2026 21:14 =====
 naima.it
 
+# ===== Trovati in automatico il 16/11/2026 22:14 =====
+j-pop.it
+joyobjects.com
+juliettehasagun.com
+polarskateco.com
+johnrichmond.com
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
