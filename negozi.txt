@@ -222,6 +222,10 @@ simuero.com
 ugocacciatori.com
 werkstatt-munchen.com
 
+# ===== Trovati in automatico il 16/11/2026 11:08 =====
+sac-a-langer.com
+xerjoff.com
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
