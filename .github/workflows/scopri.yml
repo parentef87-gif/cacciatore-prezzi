@@ -15,7 +15,7 @@ permissions:
 jobs:
   scopri:
     runs-on: windows-latest
-    timeout-minutes: 50
+    timeout-minutes: 55
     steps:
       - uses: actions/checkout@v4
 
@@ -47,7 +47,7 @@ jobs:
           git config user.name "cacciatore-bot"
           git config user.email "cacciatore-bot@users.noreply.github.com"
           date -u +%F > ultimo_controllo.txt
-          git add negozi.txt ultimo_controllo.txt marchi_provati.txt
+          git add negozi.txt ultimo_controllo.txt marchi_provati.txt marchi_provati_v2.txt
           git diff --cached --quiet || (git commit -m "Ricerca negozi: lista aggiornata" && git pull --rebase && git push)
 
       - name: Salva archivio

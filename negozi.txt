@@ -203,7 +203,7 @@ shop.tropicfeel.com
 zendure.com
 
 # ===== Trovati in automatico il 15/11/2026 15:42 =====
-stone-island.fr
+# stone-island.fr   (16/11/2026: indirizzo inesistente, errore DNS a ogni giro)
 undercover.nl
 
 # ===== Trovati in automatico il 15/11/2026 16:49 =====

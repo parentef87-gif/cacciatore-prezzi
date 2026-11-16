@@ -4,8 +4,8 @@
 #   .\scopri_negozi.ps1               giro normale (max marchi_per_giro marchi nuovi)
 #   .\scopri_negozi.ps1 -Marchi 50    prova solo 50 marchi
 #   .\scopri_negozi.ps1 -Forza        parte subito, ignorando la frequenza programmata
-# Frequenza: il task gira ogni ora, ma lo script lavora davvero solo ogni N ore,
-# dove N = giorno dall'inizio (1 il primo giorno, 2 il secondo...) fino a 24 (una volta al giorno).
+# Frequenza: dal 16/11/2026 lavora a ogni giro (ogni ora; "scoperta_ogni_ore" in impostazioni.json per cambiarlo).
+# I marchi gia' provati con gli indirizzi vecchi riprovano solo gli indirizzi nuovi (marchi_provati_v2.txt).
 param([int]$Marchi = 0, [switch]$Forza)
 
 $ErrorActionPreference = 'SilentlyContinue'
@@ -22,7 +22,8 @@ $UA = 'Mozilla/5.0'
 # --- decide se e' il momento di lavorare ---
 $inizio = [datetime]$cfg.scoperta_inizio
 $giorno = [math]::Floor(((Get-Date) - $inizio).TotalDays) + 1
-$ogniOre = [math]::Min([math]::Max($giorno, 1), 24)
+# 16/11/2026: l'utente vuole piu' ricerca -> lavora a ogni giro (ogni ora), senza rallentare coi giorni
+$ogniOre = if ($cfg.scoperta_ogni_ore) { [int]$cfg.scoperta_ogni_ore } else { 1 }
 if (-not $Forza -and (Test-Path $ultimo)) {
     $last = [datetime](Get-Content $ultimo -Raw).Trim()
     if (((Get-Date) - $last).TotalMinutes -lt ($ogniOre * 60 - 10)) { return }
@@ -49,16 +50,25 @@ $noti = @{}
 foreach ($r in $righe) { $m = [regex]::Match($r, '([a-z0-9\-]+\.)+[a-z]{2,}'); if ($m.Success) { $noti[(Host-Base $m.Value)] = $true } }
 $giaProvati = @{}
 if (Test-Path $provati) { Get-Content $provati | ForEach-Object { $giaProvati[$_] = $true } }
+# indirizzi "nuovi" (16/11/2026): i marchi gia' provati con quelli vecchi riprovano SOLO questi
+$provati2 = Join-Path $dir 'marchi_provati_v2.txt'
+$giaProvati2 = @{}
+if (Test-Path $provati2) { Get-Content $provati2 | ForEach-Object { $giaProvati2[$_] = $true } }
 
-# 1. raccogli i marchi dalla prima pagina di ogni negozio sorvegliato
-$attivi = $righe | ForEach-Object { $_.Trim() } | Where-Object { $_ -and -not $_.StartsWith('#') } | Get-Random -Count $(if ($cfg.negozi_per_marchi) { [int]$cfg.negozi_per_marchi } else { 20 })   # negozi a caso da cui raccogliere i marchi
+# 1. raccogli i marchi dai negozi sorvegliati (tutti, prime 3 pagine)
+$tuttiAttivi = @($righe | ForEach-Object { $_.Trim() } | Where-Object { $_ -and -not $_.StartsWith('#') })
+$attivi = $tuttiAttivi | Get-Random -Count ([math]::Min($tuttiAttivi.Count, $(if ($cfg.negozi_per_marchi) { [int]$cfg.negozi_per_marchi } else { 20 })))
+$pagineMarchi = if ($cfg.pagine_per_marchi) { [int]$cfg.pagine_per_marchi } else { 1 }
 $marche = @{}
 foreach ($d in $attivi) {
-    try {
-        $r = Invoke-RestMethod "https://$d/products.json?limit=250" -UserAgent $UA -TimeoutSec 15
-        foreach ($p in $r.products) { if ($p.vendor) { $marche[$p.vendor.Trim()] = $true } }
-    } catch {}
-    Start-Sleep -Milliseconds 300
+    for ($pg = 1; $pg -le $pagineMarchi; $pg++) {
+        try {
+            $r = Invoke-RestMethod "https://$d/products.json?limit=250&page=$pg" -UserAgent $UA -TimeoutSec 15
+            foreach ($p in $r.products) { if ($p.vendor) { $marche[$p.vendor.Trim()] = $true } }
+            if (@($r.products).Count -lt 250) { break }
+        } catch { break }
+        Start-Sleep -Milliseconds 300
+    }
 }
 
 # 2. trasforma i marchi in "nomi da indirizzo" e scegli quelli non ancora provati
@@ -66,17 +76,22 @@ $scarta = 'nike|adidas|jordan|new balance|puma|asics|converse|vans|reebok|salomo
 $daProvare = foreach ($v in $marche.Keys) {
     $norm = $v.ToLower().Normalize([Text.NormalizationForm]::FormD) -replace '\p{Mn}', ''
     $slug = $norm -replace '[^a-z0-9]', ''
-    if ($slug.Length -lt 3 -or $slug.Length -gt 25 -or $norm -match $scarta -or $giaProvati[$slug]) { continue }
-    [pscustomobject]@{ Marchio = $v; Slug = $slug; Trattino = ($norm -replace '[^a-z0-9]+', '-').Trim('-') }
+    if ($slug.Length -lt 3 -or $slug.Length -gt 25 -or $norm -match $scarta -or ($giaProvati[$slug] -and $giaProvati2[$slug])) { continue }
+    [pscustomobject]@{ Marchio = $v; Slug = $slug; Trattino = ($norm -replace '[^a-z0-9]+', '-').Trim('-'); SoloNuovi = [bool]$giaProvati[$slug] }
 }
-$daProvare = @($daProvare | Sort-Object Slug -Unique | Select-Object -First $Marchi)
+# prima i marchi mai provati, poi quelli da riprovare solo con gli indirizzi nuovi
+$daProvare = @($daProvare | Sort-Object Slug -Unique | Sort-Object SoloNuovi | Select-Object -First $Marchi)
 Scrivi "Marchi raccolti: $($marche.Count). Da provare in questo giro: $($daProvare.Count)"
 
 # 3. prova gli indirizzi piu' probabili per ogni marchio
 $trovati = @()
+$orologio = [Diagnostics.Stopwatch]::StartNew()
 foreach ($m in $daProvare) {
+    if ($orologio.Elapsed.TotalMinutes -gt 38) { Scrivi "Tempo massimo raggiunto: gli altri marchi al prossimo giro"; break }
     $nomi = @($m.Slug); if ($m.Trattino -ne $m.Slug) { $nomi += $m.Trattino }
-    $indirizzi = foreach ($s in $nomi) { "$s.com", "eu.$s.com", "$s.it", "$s.eu", "$s.de", "$s.fr", "$s.es", "$s.nl", "shop$s.com", "$s" + 'store.com' }
+    $vecchi = foreach ($s in $nomi) { "$s.com", "eu.$s.com", "$s.it", "$s.eu", "$s.de", "$s.fr", "$s.es", "$s.nl", "shop$s.com", "$s" + 'store.com' }
+    $nuovi  = foreach ($s in $nomi) { "$s.at", "$s.be", "$s.pt", "$s.ie", "$s.fi", "shop.$s.com", "store.$s.com", "eu.$s.co", "$s-shop.com", "$s" + 'official.com', "$s.co", "it.$s.com", "de.$s.com" }
+    $indirizzi = if ($m.SoloNuovi) { $nuovi } else { @($vecchi) + @($nuovi) }
     foreach ($ind in $indirizzi) {
         if (-not (Esiste $ind)) { continue }   # il sito non esiste: non perdere tempo
         try {
@@ -97,7 +112,8 @@ foreach ($m in $daProvare) {
             break
         } catch {}
     }
-    Add-Content $provati $m.Slug -Encoding UTF8
+    if (-not $m.SoloNuovi) { Add-Content $provati $m.Slug -Encoding UTF8 }
+    Add-Content $provati2 $m.Slug -Encoding UTF8
 }
 
 # 4. aggiungi i nuovi negozi alla lista del Cacciatore
