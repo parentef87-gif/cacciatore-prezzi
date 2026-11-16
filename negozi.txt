@@ -248,6 +248,18 @@ juliettehasagun.com
 polarskateco.com
 johnrichmond.com
 
+# ===== Trovati in automatico il 16/11/2026 23:12 =====
+mancalamaro.it
+mascotte.eu
+lihanngeorge.com
+lousylivin.com
+melvita.com
+rig-tig.com
+shopgojira.com
+gigaciao.com
+giardiniditoscana.com
+giunti.it
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
