@@ -235,6 +235,9 @@ americansocks.com
 fainz.de
 urbanclassics.com
 
+# ===== Trovati in automatico il 16/11/2026 19:34 =====
+moschino.com
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
