@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: '*/15 * * * *'
   workflow_dispatch:
+    inputs:
+      simula:
+        description: 'Prova: nome di UN negozio su cui fingere un crollo di prezzo (vuoto = giro normale)'
+        required: false
+        default: ''
 
 concurrency:
   group: cacciatore
@@ -35,7 +40,11 @@ jobs:
 
       - name: Caccia agli errori di prezzo
         shell: powershell
-        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\cacciatore.ps1
+        env:
+          SIMULA: ${{ github.event.inputs.simula }}
+        run: |
+          if ($env:SIMULA) { powershell -NoProfile -ExecutionPolicy Bypass -File .\cacciatore.ps1 -Simula -Negozio ($env:SIMULA -replace '[^a-z0-9.\-]', '') }
+          else { powershell -NoProfile -ExecutionPolicy Bypass -File .\cacciatore.ps1 }
 
       - name: Riassunto (e messaggio "sto girando" sul bot Report)
         if: always()
