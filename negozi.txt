@@ -230,6 +230,11 @@ xerjoff.com
 village-pm.com
 zeromolecole.it
 
+# ===== Trovati in automatico il 16/11/2026 16:39 =====
+americansocks.com
+fainz.de
+urbanclassics.com
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
