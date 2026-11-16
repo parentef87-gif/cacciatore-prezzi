@@ -215,6 +215,13 @@ parfums-de-marly.com
 porttanger.com
 rickowens.eu
 
+# ===== Trovati in automatico il 16/11/2026 08:17 =====
+oneill.com
+rotho-babydesign.com
+simuero.com
+ugocacciatori.com
+werkstatt-munchen.com
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
