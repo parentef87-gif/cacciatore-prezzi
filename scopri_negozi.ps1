@@ -11,7 +11,8 @@ param([int]$Marchi = 0, [switch]$Forza)
 $ErrorActionPreference = 'SilentlyContinue'
 $dir      = $PSScriptRoot
 $negFile  = Join-Path $dir 'negozi.txt'
-$provati  = Join-Path $dir 'prezzi\marchi_provati.txt'
+New-Item -ItemType Directory -Force (Join-Path $dir 'prezzi') | Out-Null   # su GitHub la cartella puo' non esserci
+$provati  = Join-Path $dir 'marchi_provati.txt'                          # nel repository (non nella cache), cosi' non si perde
 $ultimo   = Join-Path $dir 'prezzi\scoperta_ultimo_giro.txt'
 $logFile  = Join-Path $dir 'scoperte.log'
 $cfg      = Get-Content (Join-Path $dir 'impostazioni.json') -Raw | ConvertFrom-Json
