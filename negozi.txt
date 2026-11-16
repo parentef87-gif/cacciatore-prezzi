@@ -189,7 +189,7 @@ karhu.com
 kingpinclothingstore.com
 laifen.it
 lardini.com
-www.leagueoflegends.fr
+# www.leagueoflegends.fr   (scartato 16/11: non e' il sito ufficiale, negozio poco affidabile, falsi crolli di prezzo)
 lemaire.fr
 lenco.com
 lonsdale.de

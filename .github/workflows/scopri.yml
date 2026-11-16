@@ -34,7 +34,8 @@ jobs:
         env:
           TG: ${{ secrets.TELEGRAM_REPORT }}
         run: |
-          $env:TG | ConvertTo-SecureString -AsPlainText -Force | ConvertFrom-SecureString | Out-File telegram_report.dat -Encoding ascii
+          # toglie spazi, a capo e caratteri invisibili (es. BOM) che rendono il codice non valido
+          ($env:TG -replace '[^A-Za-z0-9:_|-]', '') | ConvertTo-SecureString -AsPlainText -Force | ConvertFrom-SecureString | Out-File telegram_report.dat -Encoding ascii
 
       - name: Cerca negozi nuovi
         shell: powershell
