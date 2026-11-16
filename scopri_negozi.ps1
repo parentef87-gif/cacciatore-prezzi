@@ -26,7 +26,7 @@ $giorno = [math]::Floor(((Get-Date) - $inizio).TotalDays) + 1
 $ogniOre = if ($cfg.scoperta_ogni_ore) { [int]$cfg.scoperta_ogni_ore } else { 1 }
 if (-not $Forza -and (Test-Path $ultimo)) {
     $last = [datetime](Get-Content $ultimo -Raw).Trim()
-    if (((Get-Date) - $last).TotalMinutes -lt ($ogniOre * 60 - 10)) { return }
+    if (((Get-Date) - $last).TotalMinutes -lt ($ogniOre * 60 - 30)) { return }
 }
 (Get-Date -Format 's') | Out-File $ultimo -Encoding ascii
 
