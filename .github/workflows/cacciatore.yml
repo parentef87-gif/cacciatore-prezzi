@@ -2,7 +2,7 @@ name: Cacciatore errori di prezzo
 
 on:
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '*/15 * * * *'
   workflow_dispatch:
 
 concurrency:
@@ -37,16 +37,31 @@ jobs:
         shell: powershell
         run: powershell -NoProfile -ExecutionPolicy Bypass -File .\cacciatore.ps1
 
-      - name: Riassunto
+      - name: Riassunto (e messaggio "sto girando" sul bot Report)
         if: always()
         shell: powershell
+        env:
+          TGR: ${{ secrets.TELEGRAM_REPORT }}
         run: |
+          $letti = 0; $errori = 0; $avvisi = 0; $tgKo = 0
           if (Test-Path avvisi.log) {
-            $oggi = Get-Content avvisi.log -Tail 1500 | Where-Object { $_ -match '^\d{4}' -and [datetime]$_.Substring(0,19) -gt (Get-Date).AddMinutes(-40) }
-            "LETTI BENE: " + @($oggi | Where-Object { $_ -match 'controllati|prima lettura' }).Count
-            "ERRORI O PAUSA: " + @($oggi | Where-Object { $_ -match 'non riuscita|pausa' }).Count
-            "AVVISI: " + @($oggi | Where-Object { $_ -match 'AVVISO' }).Count
-            $oggi | Where-Object { $_ -match 'AVVISO|non riuscita|pausa' } | Select-Object -Last 20
+            $oggi = Get-Content avvisi.log -Tail 3000 | Where-Object { $_ -match '^\d{4}' -and [datetime]$_.Substring(0,19) -gt (Get-Date).AddMinutes(-20) }
+            $letti  = @($oggi | Where-Object { $_ -match 'controllati|prima lettura' }).Count
+            $errori = @($oggi | Where-Object { $_ -match 'non riuscita|pausa' }).Count
+            $avvisi = @($oggi | Where-Object { $_ -match 'AVVISO' }).Count
+            $tgKo   = @($oggi | Where-Object { $_ -match 'Telegram non riuscito' }).Count
+            "LETTI BENE: $letti"; "ERRORI O PAUSA: $errori"; "AVVISI: $avvisi"; "TELEGRAM NON RIUSCITO: $tgKo"
+            $oggi | Where-Object { $_ -match 'AVVISO|non riuscita|pausa|Telegram non' } | Select-Object -Last 20
+          }
+          $tot = @(Get-Content negozi.txt | Where-Object { $_.Trim() -and -not $_.Trim().StartsWith('#') }).Count
+          $esito = if ('${{ job.status }}' -eq 'success' -and $letti -gt 0) { [char]0x2705 + ' Cacciatore ha girato' } else { [char]0x26A0 + ' Cacciatore: giro con problemi' }
+          $ora = [TimeZoneInfo]::ConvertTimeBySystemTimeZoneId((Get-Date).ToUniversalTime(), 'W. Europe Standard Time').ToString('HH:mm')
+          $testo = "$esito ($ora)`nNegozi letti: $letti su $tot`nNon riusciti / in pausa: $errori`nCrolli di prezzo trovati: $avvisi" + $(if ($tgKo) { "`nATTENZIONE: $tgKo avvisi NON consegnati su Telegram" } else { '' })
+          $t = $env:TGR -replace '[^A-Za-z0-9:_|-]', ''
+          if ($t) {
+            $tok, $chat = $t -split '\|', 2
+            try { Invoke-RestMethod "https://api.telegram.org/bot$tok/sendMessage" -Method Post -Body @{ chat_id = $chat; text = $testo; disable_notification = 'true' } -TimeoutSec 20 | Out-Null; "Messaggio Report inviato" }
+            catch { "Messaggio Report NON inviato: $($_.Exception.Message)" }
           }
 
       - name: Salva archivio prezzi

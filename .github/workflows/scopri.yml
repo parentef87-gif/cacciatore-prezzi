@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: cacciatore
+  group: scopri          # separato dal Cacciatore: cosi' la ricerca (35 min) non lo blocca
   cancel-in-progress: false
 
 permissions:
