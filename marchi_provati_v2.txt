@@ -2212,3 +2212,7 @@ uada
 wizardsofthecoast
 moonspell
 enterpriseearth
+moonboot
+sebbie
+aries
+carachangren
