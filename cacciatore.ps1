@@ -46,6 +46,35 @@ function Notifica-Telegram($testo) {
     } catch { Scrivi-Log "Telegram non riuscito: $($_.Exception.Message)" }
 }
 
+# --- CANALE PUBBLICO "A caccia di errori" (17/11/2026): solo i migliori, un post per prodotto con le taglie ---
+# Filtro: veri crolli improvvisi (prezzo sceso rispetto al giro prima), "manca uno zero", "prezzo quasi zero",
+# oppure prodotti nuovi da -75% in su. Massimo 10 post al giorno dal Cacciatore. Niente caratteri speciali nel file:
+# PowerShell 5.1 legge questo file come ANSI, quindi emoji e simboli si costruiscono con [char].
+function E($cp) { [char]::ConvertFromUtf32($cp) }
+function Pubblica-Canale($negozio, $gruppo) {
+    # Nessuna chiave del canale su GitHub: si manda l'offerta (in formato dati, "#CANALE {...}") con il bot del Cacciatore
+    # all'account offerte collegato al Raspberry, che la pubblica nel canale con il suo bot (offerte_live.py).
+    $f = Join-Path $dir 'telegram.dat'
+    if (-not (Test-Path $f) -or -not $cfg.canale_relay) { return }
+    $contFile = Join-Path $archivio 'canale_contatore.json'
+    $oggi = Get-Date -Format 'yyyy-MM-dd'
+    $cont = if (Test-Path $contFile) { Get-Content $contFile -Raw | ConvertFrom-Json } else { [pscustomobject]@{ giorno = $oggi; n = 0 } }
+    if ($cont.giorno -ne $oggi) { $cont = [pscustomobject]@{ giorno = $oggi; n = 0 } }
+    if ($cont.n -ge 10) { Scrivi-Log "CANALE: limite giornaliero raggiunto, non pubblico $($gruppo[0].prod)"; return }
+    $m = $gruppo | Sort-Object sc -Descending | Select-Object -First 1
+    $taglie = @($gruppo | ForEach-Object { $_.var } | Where-Object { $_ -and $_ -ne 'Default Title' } | Select-Object -Unique | Select-Object -First 12)
+    $dati = [ordered]@{ negozio = ($negozio -replace '^www\.', ''); prod = $m.prod; taglie = $taglie; old = $m.old; new = $m.new; sc = $m.sc; url = $m.url }
+    try {
+        $s = Get-Content $f | ConvertTo-SecureString
+        $plain = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($s))
+        $tok, $chat = $plain -split '\|', 2
+        $corpo = @{ chat_id = [string]$cfg.canale_relay; text = '#CANALE ' + ($dati | ConvertTo-Json -Compress); disable_notification = $true } | ConvertTo-Json
+        Invoke-RestMethod "https://api.telegram.org/bot$tok/sendMessage" -Method Post -ContentType 'application/json; charset=utf-8' -Body ([Text.Encoding]::UTF8.GetBytes($corpo)) -TimeoutSec 20 | Out-Null
+        $cont.n++; $cont | ConvertTo-Json | Out-File $contFile -Encoding utf8
+        Scrivi-Log "CANALE: pubblicato [$negozio] $($m.prod) -$($m.sc)% ($($taglie.Count) taglie)"
+    } catch { Scrivi-Log "CANALE: pubblicazione non riuscita: $($_.Exception.Message)" }
+}
+
 function Avvisa($negozio, $titolo, $vecchio, $nuovo, $motivo, $url) {
     $testo = "$titolo`n$vecchio $EUR -> $nuovo $EUR ($motivo)"
     Scrivi-Log "AVVISO [$negozio] $titolo : $vecchio -> $nuovo ($motivo) $url"
@@ -105,6 +134,8 @@ foreach ($d in $negozi) {
                         c = if ($v.compare_at_price) { [double]$v.compare_at_price } else { 0 }
                         a = [bool]$v.available
                         t = $nome
+                        n = $p.title
+                        v = $v.title
                         u = "https://$d/products/$($p.handle)?variant=$($v.id)"
                     }
                 }
@@ -134,6 +165,7 @@ foreach ($d in $negozi) {
 
     # 2. confronta con la volta precedente
     $avvisiNegozio = 0
+    $perCanale = @()
     foreach ($k in $nuovi.Keys) {
         $n = $nuovi[$k]
         if (-not $n.a -or $n.p -le 0) { continue }   # non disponibile o prezzo segnaposto 0,00
@@ -155,6 +187,17 @@ foreach ($d in $negozi) {
             Avvisa $d $n.t $vecchio $n.p $motivo $n.u
             $avvisiNegozio++; $avvisiTot++
         }
+        if ($motivo -and $vecchio -gt 0) {
+            $sc = [int][math]::Round((1 - $n.p / $vecchio) * 100)
+            if ($motivo -notlike 'nuovo prodotto*' -or $sc -ge 75) {
+                $perCanale += [pscustomobject]@{ prod = $(if ($n.n) { $n.n } else { $n.t }); var = $n.v; old = $vecchio; new = $n.p; sc = $sc; url = $n.u }
+            }
+        }
+    }
+    # un post per prodotto (le taglie insieme), al massimo 3 prodotti per negozio a giro
+    if ($perCanale.Count -and -not $Simula) {
+        $perCanale | Group-Object prod | Sort-Object { ($_.Group | Measure-Object sc -Maximum).Maximum } -Descending | Select-Object -First 3 |
+            ForEach-Object { Pubblica-Canale $d @($_.Group) }
     }
 
     # 3. aggiorna la foto dei prezzi (unisce le pagine lette ora con quelle lette nei giri precedenti)

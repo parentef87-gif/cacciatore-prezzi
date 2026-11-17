@@ -1,4 +1,4 @@
-﻿{
+{
     "crollo_percento":  60,
     "max_pagine":  6,
     "pausa_secondi_tra_pagine":  2,
@@ -7,5 +7,6 @@
     "marchi_per_giro":  250,
     "negozi_per_marchi":  999,
     "pagine_per_marchi":  3,
-    "scoperta_inizio":  "2026-11-15T08:00:00"
+    "scoperta_inizio":  "2026-11-15T08:00:00",
+    "canale_relay":  "9221620077"
 }
