@@ -307,6 +307,14 @@ oneill.be
 store.olafhussein.com
 makari-shop.com
 
+# ===== Trovati in automatico il 17/11/2026 07:28 =====
+shop.piquadro.com
+pinqponq-shop.com
+lenco.at
+shop.loscarabeo.com
+kreafunk.at
+shop.komono.com
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
