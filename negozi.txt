@@ -335,6 +335,12 @@ it.eufy.com
 de.dabbsson.com
 shop.singularu.com
 
+# ===== Trovati in automatico il 17/11/2026 11:28 =====
+minime.it
+anamarbella.com
+burga.pt
+it.americansocks.com
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
