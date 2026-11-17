@@ -300,6 +300,13 @@ warm-me.com
 werkstatt-muenchen.com
 it.neewer.com
 
+# ===== Trovati in automatico il 17/11/2026 06:22 =====
+on-running.co
+nntlab.be
+oneill.be
+store.olafhussein.com
+makari-shop.com
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
