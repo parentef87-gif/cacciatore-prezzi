@@ -346,6 +346,9 @@ bdkparfums.co
 shop.arte-antwerp.com
 ann.fi
 
+# ===== Trovati in automatico il 17/11/2026 14:07 =====
+wastedparis.it
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
