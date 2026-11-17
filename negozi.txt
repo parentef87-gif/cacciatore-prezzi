@@ -288,6 +288,18 @@ twojeys.com
 transit.it
 berryglow.it
 
+# ===== Trovati in automatico il 17/11/2026 05:23 =====
+aminamuaddi.com
+volbeat.fr
+viktor-rolf.com
+amiparis.com
+balmain.com
+upscale.fr
+within-temptation.com
+warm-me.com
+werkstatt-muenchen.com
+it.neewer.com
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
