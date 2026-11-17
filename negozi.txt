@@ -341,6 +341,11 @@ anamarbella.com
 burga.pt
 it.americansocks.com
 
+# ===== Trovati in automatico il 17/11/2026 12:05 =====
+bdkparfums.co
+shop.arte-antwerp.com
+ann.fi
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
