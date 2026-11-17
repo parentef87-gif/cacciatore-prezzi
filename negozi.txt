@@ -273,6 +273,13 @@ comme-des-garcons.de
 spezieriadisanmarco.com
 richmond-x.com
 
+# ===== Trovati in automatico il 17/11/2026 02:40 =====
+rassvet.fr
+guidi.it
+theattico.com
+elroel.it
+emanuelebicocchi.it
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
