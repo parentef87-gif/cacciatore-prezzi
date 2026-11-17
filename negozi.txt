@@ -315,6 +315,17 @@ shop.loscarabeo.com
 kreafunk.at
 shop.komono.com
 
+# ===== Trovati in automatico il 17/11/2026 09:26 =====
+it.rains.com
+it.purelei.com
+indicode.at
+rotho-shop.com
+fred-perry.be
+de.frida.com
+it.fissler.com
+de.ugreen.com
+it.yeti.com
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
