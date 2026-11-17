@@ -95,7 +95,7 @@ if (-not $Negozio -and -not $Simula) {
         $attivi += Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$PSCommandPath`" -Negozio $d" -WindowStyle Hidden -PassThru
     }
     $attivi | ForEach-Object { $_.WaitForExit() }
-    if ((Get-Item $logFile).Length -gt 1MB) { Get-Content $logFile -Tail 3000 | Set-Content $logFile -Encoding UTF8 }
+    if ((Get-Item $logFile).Length -gt 1MB) { $ultime = Get-Content $logFile -Tail 3000; Set-Content $logFile -Value $ultime -Encoding UTF8 }   # prima legge, poi scrive (insieme il file restava bloccato)
     return
 }
 if ($Negozio) { $negozi = @($Negozio) }
@@ -215,4 +215,4 @@ foreach ($d in $negozi) {
 }
 
 # tieni il log piccolo
-if ((Get-Item $logFile).Length -gt 1MB) { Get-Content $logFile -Tail 3000 | Set-Content $logFile -Encoding UTF8 }
+if ((Get-Item $logFile).Length -gt 1MB) { $ultime = Get-Content $logFile -Tail 3000; Set-Content $logFile -Value $ultime -Encoding UTF8 }   # prima legge, poi scrive (insieme il file restava bloccato)
