@@ -260,6 +260,12 @@ gigaciao.com
 giardiniditoscana.com
 giunti.it
 
+# ===== Trovati in automatico il 17/11/2026 00:07 =====
+ontherun.de
+lancaster.com
+la-mer.pt
+everby.it
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
