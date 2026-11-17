@@ -266,6 +266,13 @@ lancaster.com
 la-mer.pt
 everby.it
 
+# ===== Trovati in automatico il 17/11/2026 01:10 =====
+diesel.ie
+sigg.com
+comme-des-garcons.de
+spezieriadisanmarco.com
+richmond-x.com
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
