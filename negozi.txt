@@ -280,6 +280,14 @@ theattico.com
 elroel.it
 emanuelebicocchi.it
 
+# ===== Trovati in automatico il 17/11/2026 04:17 =====
+tomodachipress.com
+therollingstones.es
+thomkrom.com
+twojeys.com
+transit.it
+berryglow.it
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
