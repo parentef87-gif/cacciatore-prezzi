@@ -361,6 +361,9 @@ naseem.fr
 # ===== Trovati in automatico il 18/11/2026 15:45 =====
 petitdubai.fr
 
+# ===== Trovati in automatico il 18/11/2026 16:51 =====
+maboutique.it
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
