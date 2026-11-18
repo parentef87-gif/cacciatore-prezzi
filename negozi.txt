@@ -364,6 +364,9 @@ petitdubai.fr
 # ===== Trovati in automatico il 18/11/2026 16:51 =====
 maboutique.it
 
+# ===== Trovati in automatico il 18/11/2026 17:49 =====
+apc.fr
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
