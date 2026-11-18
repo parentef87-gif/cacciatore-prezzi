@@ -352,6 +352,9 @@ wastedparis.it
 # ===== Trovati in automatico il 17/11/2026 23:40 =====
 palefaceswiss.com
 
+# ===== Trovati in automatico il 18/11/2026 12:53 =====
+dubaioud.ie
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
