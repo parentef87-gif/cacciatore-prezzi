@@ -358,6 +358,9 @@ dubaioud.ie
 # ===== Trovati in automatico il 18/11/2026 14:15 =====
 naseem.fr
 
+# ===== Trovati in automatico il 18/11/2026 15:45 =====
+petitdubai.fr
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
