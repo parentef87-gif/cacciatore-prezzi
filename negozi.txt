@@ -355,6 +355,9 @@ palefaceswiss.com
 # ===== Trovati in automatico il 18/11/2026 12:53 =====
 dubaioud.ie
 
+# ===== Trovati in automatico il 18/11/2026 14:15 =====
+naseem.fr
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
