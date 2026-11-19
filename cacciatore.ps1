@@ -56,6 +56,7 @@ function Pubblica-Canale($negozio, $gruppo) {
     # all'account offerte collegato al Raspberry, che la pubblica nel canale con il suo bot (offerte_live.py).
     $f = Join-Path $dir 'telegram.dat'
     if (-not (Test-Path $f) -or -not $cfg.canale_relay) { return }
+    if (-not (Negozio-Ammesso $negozio)) { return }   # 19/11: stessi negozi ammessi delle notifiche
     $contFile = Join-Path $archivio 'canale_contatore.json'
     $oggi = Get-Date -Format 'yyyy-MM-dd'
     $cont = if (Test-Path $contFile) { Get-Content $contFile -Raw | ConvertFrom-Json } else { [pscustomobject]@{ giorno = $oggi; n = 0 } }
@@ -75,8 +76,20 @@ function Pubblica-Canale($negozio, $gruppo) {
     } catch { Scrivi-Log "CANALE: pubblicazione non riuscita: $($_.Exception.Message)" }
 }
 
+# --- 19/11/2026 (utente): notifiche SOLO da negozi italiani (.it), negozi .com e internazionali super conosciuti ---
+# Gli altri si continuano a sorvegliare (scritti nel registro come FILTRATO) ma non mandano niente.
+$NOTI_INTERNAZIONALI = @('patta', 'antonioli', 'nothing', 'fred-perry', 'lemaire', 'rickowens', 'diesel', 'comme-des-garcons',
+                         'apc', 'on-running', 'clementoni', 'eizo', 'la-mer', 'lonsdale', 'oneill', 'mous')
+function Negozio-Ammesso($negozio) {
+    $h = ($negozio -replace '^https?://', '' -replace '/.*$', '').ToLower()
+    if ($h -match '\.(it|com)$') { return $true }
+    $nome = (($h -replace '^(www|eu|it|shop|store)\.', '') -split '\.')[0]
+    return ($NOTI_INTERNAZIONALI -contains $nome)
+}
+
 function Avvisa($negozio, $titolo, $vecchio, $nuovo, $motivo, $url) {
     $testo = "$titolo`n$vecchio $EUR -> $nuovo $EUR ($motivo)"
+    if (-not (Negozio-Ammesso $negozio)) { Scrivi-Log "FILTRATO (negozio non .it/.com/noto) [$negozio] $titolo : $vecchio -> $nuovo ($motivo) $url"; return }
     Scrivi-Log "AVVISO [$negozio] $titolo : $vecchio -> $nuovo ($motivo) $url"
     Notifica-Telegram ("ERRORE DI PREZZO? - $negozio`n$testo`n$url")
 }
