@@ -48,6 +48,7 @@ jobs:
           git config user.email "cacciatore-bot@users.noreply.github.com"
           date -u +%F > ultimo_controllo.txt
           git add negozi.txt ultimo_controllo.txt marchi_provati.txt marchi_provati_v2.txt
+          if [ -f report_giorno.json ]; then git add report_giorno.json; fi
           git diff --cached --quiet || (git commit -m "Ricerca negozi: lista aggiornata" && git pull --rebase && git push)
 
       - name: Salva archivio

@@ -128,14 +128,27 @@ if ($trovati.Count) {
 $tot = (Get-Content $negFile | Where-Object { $_.Trim() -and -not $_.Trim().StartsWith('#') }).Count
 Scrivi "Fine giro: trovati $($trovati.Count) negozi nuovi. Negozi totali nel Cacciatore: $tot"
 
-# report su Telegram
-$prossimo = (Get-Date).AddHours($ogniOre).ToString('dd/MM HH:mm')
-$elenco = if ($trovati.Count) { "`n" + (($trovati | ForEach-Object { "+ $($_.Host)" }) -join "`n") } else { '' }
+# report su Telegram: 20/11 (utente: "i report dei negozi solo sera") -> si somma tutto il giorno in report_giorno.json
+# e si manda UN riassunto la sera (primo giro dalle 21 ora italiana in poi)
+$oraIt = [TimeZoneInfo]::ConvertTimeBySystemTimeZoneId((Get-Date).ToUniversalTime(), 'Central European Standard Time')
+$oggiIt = $oraIt.ToString('yyyy-MM-dd')
+$repF = Join-Path $dir 'report_giorno.json'
+$rep = $null
+try { $rep = Get-Content $repF -Raw -ErrorAction Stop | ConvertFrom-Json } catch {}
+if (-not $rep -or $rep.data -ne $oggiIt) { $rep = [pscustomobject]@{ data = $oggiIt; giri = 0; marchi = 0; nuovi = @(); inviato = $false } }
+$rep.giri = [int]$rep.giri + 1
+$rep.marchi = [int]$rep.marchi + $daProvare.Count
+$rep.nuovi = @($rep.nuovi) + @($trovati | ForEach-Object { $_.Host })
+$mandare = ($oraIt.Hour -ge 21) -and (-not $rep.inviato)
+if ($mandare) { $rep.inviato = $true }
+$rep | ConvertTo-Json -Compress | Set-Content $repF -Encoding UTF8
+if (-not $mandare) { return }
+$elenco = if (@($rep.nuovi).Count) { "`n" + ((@($rep.nuovi) | ForEach-Object { "+ $_" }) -join "`n") } else { '' }
 $restano = [math]::Max(0, ($marche.Count - (Get-Content $provati -ErrorAction SilentlyContinue).Count))
-Telegram ("Ricerca negozi (giorno $giorno, ogni $ogniOre h)`n" +
-          "Marchi provati: $($daProvare.Count) - ancora da provare: circa $restano`n" +
-          "Negozi nuovi trovati: $($trovati.Count)$elenco`n" +
-          "Negozi sorvegliati in totale: $tot`n" +
-          "Prossima ricerca: $prossimo" +
+Telegram ("Ricerca negozi - riassunto di oggi $($oraIt.ToString('dd/MM')) (giorno $giorno)`n" +
+          "Giri fatti oggi: $($rep.giri) - marchi provati oggi: $($rep.marchi)`n" +
+          "Marchi ancora da provare: circa $restano`n" +
+          "Negozi nuovi trovati oggi: $(@($rep.nuovi).Count)$elenco`n" +
+          "Negozi sorvegliati in totale: $tot" +
           $(if ((Test-Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired') -or (Test-Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending')) {
               "`n`nPROMEMORIA: Windows ha installato aggiornamenti e chiede un riavvio. Quando usi il PC riavvialo e poi rientra con il tuo utente, cosi' il Cacciatore riparte." } else { '' }))
