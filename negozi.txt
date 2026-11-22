@@ -373,6 +373,9 @@ shop.michael-patrick-kelly.com
 # ===== Trovati in automatico il 20/11/2026 12:51 =====
 hopsydian.com
 
+# ===== Trovati in automatico il 22/11/2026 13:48 =====
+wuwear.eu
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
