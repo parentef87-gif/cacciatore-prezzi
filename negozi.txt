@@ -376,6 +376,9 @@ hopsydian.com
 # ===== Trovati in automatico il 22/11/2026 13:48 =====
 wuwear.eu
 
+# ===== Trovati in automatico il 23/11/2026 16:48 =====
+staycoldapparel.com
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
