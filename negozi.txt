@@ -379,6 +379,9 @@ wuwear.eu
 # ===== Trovati in automatico il 23/11/2026 16:48 =====
 staycoldapparel.com
 
+# ===== Trovati in automatico il 24/11/2026 02:05 =====
+soil.es
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
