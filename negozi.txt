@@ -385,6 +385,10 @@ soil.es
 # ===== Trovati in automatico il 24/11/2026 12:55 =====
 revnoir.com
 
+# ===== Trovati in automatico il 25/11/2026 23:40 =====
+032c.com
+badhabits.es
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
