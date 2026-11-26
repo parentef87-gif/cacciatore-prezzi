@@ -404,6 +404,9 @@ shop.apocalyptica.com
 # ===== Trovati in automatico il 26/11/2026 15:56 =====
 eu.lagwagon.com
 
+# ===== Trovati in automatico il 26/11/2026 16:58 =====
+powerwolf-shop.com
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
