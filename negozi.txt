@@ -401,6 +401,9 @@ arianejewels.com
 eu.miista.com
 shop.apocalyptica.com
 
+# ===== Trovati in automatico il 26/11/2026 15:56 =====
+eu.lagwagon.com
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
