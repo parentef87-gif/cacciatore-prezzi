@@ -389,6 +389,14 @@ revnoir.com
 032c.com
 badhabits.es
 
+# ===== Trovati in automatico il 26/11/2026 00:45 =====
+lolacruz.com
+sitanevado.com
+clarisvirot.com
+badits.com
+bibilou.es
+arianejewels.com
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
