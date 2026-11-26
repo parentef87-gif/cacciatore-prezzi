@@ -397,6 +397,10 @@ badits.com
 bibilou.es
 arianejewels.com
 
+# ===== Trovati in automatico il 26/11/2026 11:50 =====
+eu.miista.com
+shop.apocalyptica.com
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
