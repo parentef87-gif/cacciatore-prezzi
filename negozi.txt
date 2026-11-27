@@ -414,6 +414,9 @@ coperni.com
 # ===== Trovati in automatico il 27/11/2026 12:53 =====
 histomer.com
 
+# ===== Trovati in automatico il 27/11/2026 16:59 =====
+saltatio-mortis-shop.com
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
