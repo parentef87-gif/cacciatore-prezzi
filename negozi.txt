@@ -411,6 +411,9 @@ powerwolf-shop.com
 ancientgreeksandals.com
 coperni.com
 
+# ===== Trovati in automatico il 27/11/2026 12:53 =====
+histomer.com
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
