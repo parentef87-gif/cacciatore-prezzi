@@ -407,6 +407,10 @@ eu.lagwagon.com
 # ===== Trovati in automatico il 26/11/2026 16:58 =====
 powerwolf-shop.com
 
+# ===== Trovati in automatico il 27/11/2026 09:56 =====
+ancientgreeksandals.com
+coperni.com
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
