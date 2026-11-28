@@ -417,6 +417,9 @@ histomer.com
 # ===== Trovati in automatico il 27/11/2026 16:59 =====
 saltatio-mortis-shop.com
 
+# ===== Trovati in automatico il 28/11/2026 10:43 =====
+battistoni.com
+
 # Scartati (valuta non in euro)
 # tcg-corner.com      (dollari)
 # pokemonplug.com     (dollari)
